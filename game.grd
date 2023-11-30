@@ -1,0 +1,64 @@
+_map = []
+_mapLength = 10
+_mapWidth = 20
+_objectsToRender = [_player]
+_updateRenderBool = true  // Initialize to true to render the initial map
+
+FUNK input()
+{
+    playerInput = GF_KEY()
+    
+    IF playerInput == NULL:
+        // Do nothing if playerInput is NULL
+    END
+    ELSE:
+        actionBool = true
+       // GF_WRITE_LN(playerInput)
+        IF playerInput == "w"
+        {
+            _player.y = _player.y - 1
+        }
+        ELSE IF playerInput == "s"
+        {
+            _player.y = _player.y + 1
+        }
+        ELSE IF playerInput == "d"
+        {
+            _player.x = _player.x + 1
+        }
+        ELSE IF playerInput == "a"
+        {
+            _player.x = _player.x - 1
+        }
+        ELSE
+        {
+            actionBool = false
+        }
+        IF actionBool == true
+        {
+            _updateRenderBool = true  // Set to true to trigger rendering
+        }
+    END
+}
+
+FUNK update()
+{
+    WHILE true:  // Use a controlled game loop
+        IF _updateRenderBool == true:
+            GF_CLS()
+            renderObject()
+            drawMap()
+            _updateRenderBool = false
+        END
+        input()
+    END
+}
+
+FUNK gameInit()
+{
+    _map = initMap(_mapLength, _mapWidth, _map)
+    renderObject()  // Add player to the initial rendering
+    update()
+}
+
+gameInit()

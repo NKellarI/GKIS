@@ -1,0 +1,55 @@
+// All render Code is Bad Code
+_updateRenderBool = false
+FUNK initMap(_mapLength,_mapWidth,map)
+{
+    i = 0
+    WHILE i < _mapLength:
+        j=0
+        GL_ADD(map,".")
+        WHILE j < _mapWidth:
+            map[i] = map[i] + "."
+            j++
+        END
+        i++
+    END
+    _updateRenderBool = true
+    _return = map
+}
+
+FUNK drawMap()
+{
+    i=0
+    WHILE i < _mapLength:
+        GF_WRITE_LN(_map[i])
+        i++
+    END
+}
+
+FUNK renderObject() {
+    tempMap = ["", "", "", "", "", "", "", "", "", ""]
+    
+    // Initialize tempMap with '.' characters
+    tempMap = initMap(_mapLength, _mapWidth, tempMap)
+    
+    o = 0
+    WHILE o < GF_LENGTH(_objectsToRender) {
+        object = _objectsToRender[o]
+        newY = object.y
+        newX = object.x
+        tempRow = ""
+        k = 0
+        WHILE k < _mapWidth {
+            IF k == newX {
+                tempRow = tempRow + object.char
+            } ELSE {
+                tempRow = tempRow + GF_INDEX_CHAR(tempMap[newY], k)
+            }
+            k++
+        }
+        tempMap[newY] = tempRow
+        o++
+    }
+    
+    // Now that you've updated tempMap, you can assign it back to _map.
+    _map = tempMap
+}

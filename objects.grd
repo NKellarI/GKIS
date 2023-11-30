@@ -1,0 +1,11 @@
+STRUK playerStruct:
+    METH playerStruct(self,x,y,char):
+        self.x = x
+        self.y = y
+        self.char = char
+    END
+END
+_player => playerStruct<>
+_player.x = 2
+_player.y = 2
+_player.char = "P"
